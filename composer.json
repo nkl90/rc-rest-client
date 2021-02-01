@@ -1,23 +1,30 @@
 {
-    "name": ":vendor/:package_name",
+    "name": "nkl/rocketchat-rest-client",
     "type": "library",
-    "description": ":package_description",
+    "description": "RocketChat rest client based on Guzzle Service Description",
     "keywords": [
-        ":vendor",
-        ":package_name"
+        "nkl",
+        "rocketchat-rest-client"
     ],
-    "homepage": "https://github.com/:vendor/:package_name",
+    "homepage": "https://github.com/nkl/rocketchat-rest-client",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": ":author_email",
-            "homepage": ":author_website",
+            "name": "Nikolay Deriglazov",
+            "email": "nikinik@inbox.ru",
+            "homepage": "http://deriglazov.com",
             "role": "Developer"
         }
     ],
     "require": {
-        "php" : "~7.2"
+        "php": "~7.2",
+        "ext-curl": "^7.4",
+        "ext-json": "*",
+        "guzzle/service": "^3.9",
+        "knplabs/knp-paginator-bundle": "^5.4",
+        "psr/http-message": "^1.0",
+        "symfony/http-foundation": "^4.4",
+        "symfony/options-resolver": "^4.4"
     },
     "require-dev": {
         "phpunit/phpunit" : ">=8.0",
@@ -25,12 +32,12 @@
     },
     "autoload": {
         "psr-4": {
-            ":vendor\\:package_name\\": "src"
+            "Nkl\\RocketChatRestClient\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            ":vendor\\:package_name\\": "tests"
+            "Nkl\\RocketChatRestClient\\Test\\": "tests"
         }
     },
     "scripts": {

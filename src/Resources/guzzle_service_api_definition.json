@@ -1,0 +1,529 @@
+{
+  "name": "RocketChat REST API",
+  "apiVersion": "2020-11-24",
+  "baseUrl": "https://rc.dev.neural-university.com/api/v1/",
+  "apiVersion": "v1",
+  "description": "RocketChat REST API SDK",
+  "operations": {
+    "login": {
+      "httpMethod": "POST",
+      "uri": "login",
+      "summary": "https://docs.rocket.chat/guides/developer/iframe-integration",
+      "responseClass": "User",
+      "parameters": {
+        "user": {
+          "type": "string",
+          "required": true,
+          "location": "json"
+        },
+        "password": {
+          "type": "string",
+          "required": true,
+          "location": "json"
+        }
+      }
+    },
+    "users.info": {
+      "httpMethod": "GET",
+      "uri": "users.info",
+      "summary": "https://docs.rocket.chat/api/rest-api/methods/users/info",
+      "responseClass": "User",
+      "parameters": {
+        "username": {
+          "type": "string",
+          "required": true,
+          "location": "query"
+        },
+        "fields": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        }
+      }
+    },
+    "users.create": {
+      "httpMethod": "POST",
+      "uri": "users.create",
+      "summary": "https://docs.rocket.chat/api/rest-api/methods/users/create",
+      "responseClass": "User",
+      "parameters": {
+        "email": {
+          "type": "string",
+          "required": true,
+          "location": "json"
+        },
+        "name": {
+           "type": "string",
+          "required": true,
+          "location": "json"
+        },
+        "password": {
+          "type": "string",
+          "required": true,
+          "location": "json"
+        },
+        "username": {
+          "type": "string",
+          "required": true,
+          "location": "json"
+        },
+        "active": {
+          "type": "boolean",
+          "required": false,
+          "location": "json"
+        },
+        "roles": {
+          "type": "array",
+          "required": false,
+          "location": "json"
+        },
+        "joinDefaultChannels": {
+          "type": "boolean",
+          "required": false,
+          "location": "json"
+        },
+        "requirePasswordChange": {
+          "type": "boolean",
+          "required": false,
+          "location": "json"
+        },
+        "sendWelcomeEmail": {
+          "type": "boolean",
+          "required": false,
+          "location": "json"
+        },
+        "verified": {
+          "type": "boolean",
+          "required": false,
+          "location": "json"
+        }
+      }
+    },
+    "users.update": {
+      "httpMethod": "POST",
+      "uri": "users.update",
+      "summary": "https://docs.rocket.chat/api/rest-api/methods/users/update",
+      "responseClass": "User",
+      "parameters": {
+        "userId": {
+          "type": "string",
+          "required": true,
+          "location": "json"
+        },
+        "data": {
+          "type": "object",
+          "required": false,
+          "location": "json"
+        }
+      }
+    },
+    "channels.list": {
+      "httpMethod": "GET",
+      "uri": "channels.list",
+      "summary": "https://docs.rocket.chat/api/rest-api/methods/channels/list",
+      "responseClass": "User",
+      "parameters": {
+
+      }
+    },
+    "groups.listAll": {
+      "httpMethod": "GET",
+      "uri": "groups.listAll",
+      "summary": "https://docs.rocket.chat/api/rest-api/methods/groups/listall",
+      "responseClass": "User",
+      "parameters": {
+        "sort": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        },
+        "offset": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        },
+        "count": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        },
+        "query": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        }
+      }
+    },
+    "groups.messages": {
+      "httpMethod": "GET",
+      "uri": "groups.messages",
+      "summary": "https://docs.rocket.chat/api/rest-api/methods/groups/messages",
+      "responseClass": "User",
+      "parameters": {
+        "roomId": {
+          "type": "string",
+          "required": true,
+          "location": "query"
+        },
+        "sort": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        },
+        "offset": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        },
+        "count": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        },
+        "query": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        }
+      }
+    },
+    "channels.messages": {
+      "httpMethod": "GET",
+      "uri": "channels.messages",
+      "summary": "https://docs.rocket.chat/api/rest-api/methods/channels/messages",
+      "responseClass": "User",
+      "parameters": {
+        "roomId": {
+          "type": "string",
+          "required": true,
+          "location": "query"
+        },
+        "sort": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        },
+        "offset": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        },
+        "count": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        },
+        "query": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        }
+      }
+    },
+    "groups.info": {
+      "httpMethod": "GET",
+      "uri": "groups.info",
+      "summary": "https://docs.rocket.chat/api/rest-api/methods/users/info",
+      "responseClass": "User",
+      "parameters": {
+        "roomId": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        },
+        "roomName": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        }
+      }
+    },
+    "groups.members": {
+      "httpMethod": "GET",
+      "uri": "groups.members",
+      "summary": "https://docs.rocket.chat/api/rest-api/methods/groups/members",
+      "responseClass": "User",
+      "parameters": {
+        "roomId": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        },
+        "roomName": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        }
+      }
+    },
+    "groups.invite": {
+      "httpMethod": "POST",
+      "uri": "groups.invite",
+      "summary": "https://docs.rocket.chat/api/rest-api/methods/groups/invite",
+      "responseClass": "Group",
+      "parameters": {
+        "roomId": {
+          "type": "string",
+          "required": false,
+          "location": "json"
+        },
+        "userId": {
+          "type": "string",
+          "required": false,
+          "location": "json"
+        }
+      }
+    },
+    "groups.create": {
+      "httpMethod": "POST",
+      "uri": "groups.create",
+      "summary": "https://docs.rocket.chat/api/rest-api/methods/groups/create",
+      "responseClass": "User",
+      "parameters": {
+        "name": {
+          "type": "string",
+          "required": true,
+          "location": "json"
+        },
+        "members": {
+          "type": "array",
+          "required": false,
+          "location": "json"
+        },
+        "readOnly": {
+          "type": "boolean",
+          "required": false,
+          "location": "json"
+        }
+      }
+    },
+    "im.list.everyone": {
+      "httpMethod": "GET",
+      "uri": "im.list.everyone",
+      "summary": "https://docs.rocket.chat/api/rest-api/methods/im/list-everyone",
+      "responseClass": "User",
+      "parameters": {
+        "offset": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        },
+        "count": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        }
+      }
+    },
+    "im.messages": {
+      "httpMethod": "GET",
+      "uri": "im.messages",
+      "summary": "Бестолковый метод. https://docs.rocket.chat/api/rest-api/methods/groups/listall",
+      "responseClass": "User",
+      "parameters": {
+        "roomId": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        },
+        "username": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        }
+      }
+    },
+    "im.messages.others": {
+      "httpMethod": "GET",
+      "uri": "im.messages.others",
+      "summary": "https://docs.rocket.chat/api/rest-api/methods/im/messages-others",
+      "responseClass": "User",
+      "parameters": {
+        "roomId": {
+          "type": "string",
+          "required": true,
+          "location": "query"
+        },
+        "sort": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        },
+        "offset": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        },
+        "count": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        }
+      }
+    },
+    "channels.info": {
+      "httpMethod": "GET",
+      "uri": "channels.info",
+      "summary": "https://docs.rocket.chat/api/rest-api/methods/users/info",
+      "responseClass": "User",
+      "parameters": {
+        "roomId": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        },
+        "roomName": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        }
+      }
+    },
+    "groups.kick": {
+      "httpMethod": "POST",
+      "uri": "groups.kick",
+      "summary": "https://docs.rocket.chat/api/rest-api/methods/groups/leave",
+      "responseClass": "Group",
+      "parameters": {
+        "roomId": {
+          "type": "string",
+          "required": true,
+          "location": "json"
+        },
+        "userId": {
+          "type": "string",
+          "required": true,
+          "location": "json"
+        }
+      }
+    },
+    "im.history": {
+      "httpMethod": "GET",
+      "uri": "im.history",
+      "summary": "https://docs.rocket.chat/api/rest-api/methods/im/history",
+      "responseClass": "User",
+      "parameters": {
+        "roomId": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        },
+        "offset": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        },
+        "count": {
+          "type": "string",
+          "required": false,
+          "location": "query"
+        }
+      }
+    }
+  },
+  "models": {
+    "BaseResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "string",
+          "required": true,
+          "location": "json"
+        },
+        "error": {
+          "type": "string",
+          "required": false,
+          "location": "json"
+        },
+        "errorType": {
+          "type": "string",
+          "required": false,
+          "location": "json"
+        },
+        "details": {
+          "type": "object",
+          "required": false,
+          "location": "json"
+        },
+        "offset": {
+          "type": "integer",
+          "required": false,
+          "location": "json"
+        },
+        "count": {
+          "type": "integer",
+          "required": false,
+          "location": "json"
+        },
+        "total": {
+          "type": "integer",
+          "required": false,
+          "location": "json"
+        }
+      },
+      "additionalProperties": {
+        "location": "json"
+      }
+    },
+    "User": {
+      "type": "object",
+      "extends": "BaseResponse",
+      "properties": {
+        "_id": {
+          "location": "json",
+          "type": "string"
+        },
+        "type": {
+          "location": "json",
+          "type": "string"
+        },
+        "status": {
+          "location": "json",
+          "type": "string"
+        },
+        "active": {
+          "location": "json",
+          "type": "boolean"
+        },
+        "utcOffset": {
+          "location": "json",
+          "type": "integer"
+        },
+        "username": {
+          "location": "json",
+          "type": "string"
+        },
+        "avatarETag": {
+          "location": "json",
+          "type": "string"
+        },
+        "rooms": {
+          "location": "json",
+          "type": "object"
+        }
+      }
+    },
+    "Channels": {
+      "type": "array",
+      "extends": "BaseResponse"
+    },
+    "Group": {
+      "type": "object",
+      "extends": "BaseResponse",
+      "properties": {
+        "_id": {
+          "location": "json",
+          "type": "string"
+        },
+        "name": {
+          "location": "json",
+          "type": "string"
+        },
+        "fname": {
+          "location": "json",
+          "type": "string"
+        }
+      }
+    }
+  }
+}
