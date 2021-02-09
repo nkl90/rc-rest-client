@@ -6,25 +6,16 @@ use Nkl\RocketChatRestClient\Exception\DuplicateChannelNameException;
 use Nkl\RocketChatRestClient\Exception\RoomNotFoundException;
 use Nkl\RocketChatRestClient\Exception\UnknownErrorException;
 use Nkl\RocketChatRestClient\Exception\UserNotFoundException;
-//use GuzzleHttp\Client;
-use Guzzle\Http\StaticClient as Client;
-//use GuzzleHttp\Command\Command;
-use Guzzle\Service\Command;
-//use GuzzleHttp\Command\Exception\CommandClientException;
-use Guzzle\Service\Exception\CommandException as CommandClientException;
-//use Guzzle\Service\Exception\CommandException;
-//use GuzzleHttp\Command\Guzzle\Description;
-use Guzzle\Service\Description\ServiceDescription as Description;
-//use GuzzleHttp\Command\Guzzle\GuzzleClient;
-use Guzzle\Service\Client as GuzzleClient;
-//use Knp\Component\Pager\Pagination\SlidingPagination;
+use GuzzleHttp\Client;
+use GuzzleHttp\Command\Exception\CommandClientException;
+use GuzzleHttp\Command\Guzzle\Description;
+use GuzzleHttp\Command\Guzzle\GuzzleClient;
 use Knp\Component\Pager\Pagination\SlidingPagination;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class StaticClient extends GuzzleClient
 {
-    public const ADMIN_CREDENTIALS_SRC = __DIR__ . '/../../../var/rc_admin_credentials.json';
+    public const ADMIN_CREDENTIALS_SRC = 'rc_admin_credentials.json';
     public const E_CLIENT_NOT_AUTHORIZED = 'You must be logged in to do this.';
     public const E_DUPLICATE_CHANNEL_NAME = 'error-duplicate-channel-name';
     public const E_ROOM_NOT_FOUND = 'error-room-not-found';
@@ -53,15 +44,19 @@ class StaticClient extends GuzzleClient
      * @param array $config
      * @return static
      */
-    public static function create($config = []) {
-        $resolver = new OptionsResolver();
-        $resolver->setRequired(['entrypoint', 'admin_credentials_src']);
+    public static function create($config = [])
+    {
+        if (!isset($_ENV['RC_SERVER']) || !isset($_ENV['RC_ADMIN_USER']) || !isset($_ENV['RC_ADMIN_PASSWORD'])) {
+            throw new \LogicException('RC_SERVER or RC_ADMIN_USER or RC_ADMIN_PASSWORD unidentified ');
+        }
         /**
          * Потом переделать это дело на yaml. Все таки json для этого не так удобен (нет комментариев)
          */
-        $description = (array) json_decode(file_get_contents(__DIR__ . '/resources/guzzle_service_api_definition.json'), TRUE);
-        //$description['baseUrl'] = $_ENV['RC_SERVER'] . '/api/v1/';
-        $description['baseUrl'] = $config['entrypoint'];
+        $description = (array) json_decode(
+            file_get_contents(__DIR__ . '/Resources/guzzle_service_api_definition.json'),
+            true
+        );
+        $description['baseUrl'] = $_ENV['RC_SERVER'] . '/api/v1/';
         $service_description = new Description($description);
 
         // Creates the client and sets the default request headers.
@@ -71,19 +66,25 @@ class StaticClient extends GuzzleClient
                 'Accept' => 'application/json',
             ]
         ];
+
         // кеширование админского токена, т.к. запрос авторизации не чаще чем раз в 30 сек.
+        $path = $_ENV['PROJECT_VAR_DIR'] . DIRECTORY_SEPARATOR . self::ADMIN_CREDENTIALS_SRC;
         try {
-            if($data = file_get_contents(self::ADMIN_CREDENTIALS_SRC)){
-                $adminCredentials = json_decode($data, true);
-            }else{
-                $adminCredentials = self::getAdminCredentials();
-                file_put_contents(self::ADMIN_CREDENTIALS_SRC, json_encode($adminCredentials));
+            if (!file_exists($path)) {
+                throw new FileNotFoundException();
             }
-        }catch (\LogicException $e){
+            $data = file_get_contents($path);
+            if ($data) {
+                $adminCredentials = json_decode($data, true);
+            } else {
+                $adminCredentials = self::getAdminCredentials();
+                file_put_contents($path, json_encode($adminCredentials));
+            }
+        } catch (\LogicException $e) {
             throw $e;
-        }catch (\ErrorException $e){
+        } catch (\Throwable $e) {
             $adminCredentials = self::getAdminCredentials();
-            file_put_contents(self::ADMIN_CREDENTIALS_SRC, json_encode($adminCredentials));
+            file_put_contents($path, json_encode($adminCredentials));
         }
 
 
@@ -94,23 +95,23 @@ class StaticClient extends GuzzleClient
 
         $client = new Client($clientConfig);
 
-        $commandClient = new static($client, $service_description, NULL, NULL, NULL, $config);
+        $commandClient = new static($client, $service_description, null, null, null, $config);
         $testCommand = $commandClient->getCommand(self::METHOD_USERS_INFO, [
             'username' => $_ENV['RC_ADMIN_USER']
         ]);
 
-        try{
+        try {
             //Тестируем клиента
             $testResult = $commandClient->execute($testCommand)->toArray();
-        }catch (CommandClientException $e){
-            if($e->getResponse()->getStatusCode() == 401){//скорее всего токен протух
+        } catch (CommandClientException $e) {
+            if ($e->getResponse()->getStatusCode() == 401) {//скорее всего токен протух
                 unlink(self::ADMIN_CREDENTIALS_SRC);//удаляем старый и переинициализируем клиент
-            }else{
+            } else {
                 // страшно, очень страшно, мы не знаем что это такое,
                 // если б мы знали что это такое, мы не знаем что это такое))
                 //throw $e;
             }
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             //dd($e);
         }
 

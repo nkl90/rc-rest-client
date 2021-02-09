@@ -1,13 +1,9 @@
 <?php
 
-
 namespace Nkl\RocketChatRestClient\Exception;
 
-
-//use GuzzleHttp\Command\CommandInterface;
-use Guzzle\Service\Command\CommandInterface;
-//use GuzzleHttp\Command\Exception\CommandClientException;
-use Guzzle\Service\Exception\CommandException as CommandClientException;
+use GuzzleHttp\Command\CommandInterface;
+use GuzzleHttp\Command\Exception\CommandClientException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 

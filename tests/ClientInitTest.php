@@ -6,17 +6,16 @@ namespace Nkl\RocketChatRestClient\Test;
 
 use Nkl\RocketChatRestClient\StaticClient;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Dotenv\Dotenv;
 
 class ClientInitTest extends TestCase
 {
-    private $config = [
-        'entrypoint' => 'https://stage.rc.dev.neural-university.com/api/v1/',
-        'admin_credentials_src' => __DIR__ . '/../var/admin_credentials.json',
-        'admin_password' => '677c0ec3'
-    ];
-
     public function testInitialization()
     {
-        $client = StaticClient::create($this->config);
+        $client = StaticClient::create();
+        $command = $client->getCommand(StaticClient::METHOD_USERS_INFO, [
+            'username' => $_ENV['RC_ADMIN_USER'],
+        ]);
+        dump($client->execute($command)->toArray());
     }
 }
